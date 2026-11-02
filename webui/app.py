@@ -37,7 +37,7 @@ AVAILABLE_MODELS = {
         'tokenizer_id': 'NeoQuasar/Kronos-Tokenizer-2k',
         'context_length': 2048,
         'params': '4.1M',
-        'description': 'Lightweight model, suitable for fast prediction'
+        'description': 'Bản nhẹ, dự báo nhanh'
     },
     'kronos-small': {
         'name': 'Kronos-small',
@@ -45,7 +45,7 @@ AVAILABLE_MODELS = {
         'tokenizer_id': 'NeoQuasar/Kronos-Tokenizer-base',
         'context_length': 512,
         'params': '24.7M',
-        'description': 'Small model, balanced performance and speed'
+        'description': 'Bản vừa, cân bằng tốc độ và chất lượng'
     },
     'kronos-base': {
         'name': 'Kronos-base',
@@ -53,7 +53,7 @@ AVAILABLE_MODELS = {
         'tokenizer_id': 'NeoQuasar/Kronos-Tokenizer-base',
         'context_length': 512,
         'params': '102.3M',
-        'description': 'Base model, provides better prediction quality'
+        'description': 'Bản lớn, chất lượng tốt hơn'
     }
 }
 
@@ -230,7 +230,7 @@ def create_prediction_chart(df, pred_df, lookback, pred_len, actual_df=None, his
         high=historical_df['high'],
         low=historical_df['low'],
         close=historical_df['close'],
-        name='Historical Data (400 data points)',
+        name='Lịch sử (400 nến)',
         increasing_line_color='#26A69A',
         decreasing_line_color='#EF5350'
     ))
@@ -258,7 +258,7 @@ def create_prediction_chart(df, pred_df, lookback, pred_len, actual_df=None, his
             high=pred_df['high'],
             low=pred_df['low'],
             close=pred_df['close'],
-            name='Prediction Data (120 data points)',
+            name='AI dự báo (120 nến)',
             increasing_line_color='#66BB6A',
             decreasing_line_color='#FF7043'
         ))
@@ -291,16 +291,16 @@ def create_prediction_chart(df, pred_df, lookback, pred_len, actual_df=None, his
             high=actual_df['high'],
             low=actual_df['low'],
             close=actual_df['close'],
-            name='Actual Data (120 data points)',
+            name='Giá thực tế (120 nến)',
             increasing_line_color='#FF9800',
             decreasing_line_color='#F44336'
         ))
     
     # Update layout
     fig.update_layout(
-        title='Kronos Financial Prediction Results - 400 Historical Points + 120 Prediction Points vs 120 Actual Points',
-        xaxis_title='Time',
-        yaxis_title='Price',
+        title='Kronos: dự báo 120 nến vs giá thực tế',
+        xaxis_title='Thời gian (UTC)',
+        yaxis_title='Giá (USDT)',
         template='plotly_white',
         height=600,
         showlegend=True
@@ -395,7 +395,7 @@ def load_data():
         return jsonify({
             'success': True,
             'data_info': data_info,
-            'message': f'Successfully loaded data, total {len(df)} rows'
+            'message': f'Đã tải dữ liệu: {len(df)} dòng'
         })
         
     except Exception as e:
@@ -462,7 +462,7 @@ def predict():
                     end_timestamp = time_range_df['timestamps'].iloc[lookback+pred_len-1]
                     time_span = end_timestamp - start_timestamp
                     
-                    prediction_type = f"Kronos model prediction (within selected window: first {lookback} data points for prediction, last {pred_len} data points for comparison, time span: {time_span})"
+                    prediction_type = f"Kronos xem {lookback} nến, dự báo {pred_len} nến kế tiếp rồi so với giá thật"
                 else:
                     # Use latest data
                     x_df = df.iloc[:lookback][required_cols]
@@ -617,7 +617,7 @@ def predict():
             'prediction_results': prediction_results,
             'actual_data': actual_data,
             'has_comparison': len(actual_data) > 0,
-            'message': f'Prediction completed, generated {pred_len} prediction points' + (f', including {len(actual_data)} actual data points for comparison' if len(actual_data) > 0 else '')
+            'message': f'Dự báo xong {pred_len} nến' + (f', có {len(actual_data)} nến thực tế để so sánh' if len(actual_data) > 0 else '')
         })
         
     except Exception as e:
@@ -650,7 +650,7 @@ def load_model():
         
         return jsonify({
             'success': True,
-            'message': f'Model loaded successfully: {model_config["name"]} ({model_config["params"]}) on {device}',
+            'message': f'Đã tải mô hình: {model_config["name"]} ({model_config["params"]}) trên {device}',
             'model_info': {
                 'name': model_config['name'],
                 'params': model_config['params'],
